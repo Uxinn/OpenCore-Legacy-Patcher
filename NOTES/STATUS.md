@@ -20,6 +20,7 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 | `gpuswitch 1` after restart, no monitor | flickers | - |
 | `gpuswitch 1` + monitor | dark (macOS says online) | works |
 | `gpuswitch 1` + monitor, **lid closed** | - | first a reconfiguration storm (170 WindowServer 0.25 s timeouts), then a **display-sleep loop**: AGDP `PMDisplaySleep` on ports 0 and 1 at about 4.5/s; the pointer updates about once a second; the loop continues after opening the lid (built-in screen shows garbage). Fixed by unplugging and replugging the monitor. Refresh rate resets to 60 Hz and audio moves to the monitor (DP). |
+| `gpuswitch 1` + monitor, **lid open, after a restart** (2026-10-16) | - | external monitor flashes: same AGDP `PMDisplaySleep` loop on port 1 plus a ValidateModeTiming storm (3440x1440 at 320/583/659 MHz pixel clocks, i.e. 60/100/120 Hz), so it is **not only a lid-closed problem**. |
 | unplugging the monitor (after the above) | stays blank, not listed by macOS | - |
 
 ## Findings
@@ -64,7 +65,9 @@ The user has a second, identical MacBook Pro. Run experiments on it, and keep Ma
    Never copy an EFI between Macs (see the iMac15,1 leftover incident in RECOVERY.md).
    2026-10-16: OpenCore installed to Mac B's internal disk from Ventura. Running Install macOS Sequoia.app from the stick
    first said "not compatible" (Ventura had started without OpenCore). Starting via ⌥ → internal EFI Boot → Macintosh HD
-   (so Ventura runs through OpenCore) made the installer accept the Mac. Sequoia install in progress.
+   (so Ventura runs through OpenCore) made the installer accept the Mac. Sequoia 15.8.1 installed.
+   First root patch ran **offline** (no Wi-Fi without the patch): OCLP then applies only "Modern Wireless" and skips the
+   rest ("Network connection missing ... removing other patches"; no KDK). AMD Polaris and T1 need a second run once online.
 3. Reproduce the symptoms on Mac B first. If they don't reproduce, Mac A may have a hardware fault.
 
 ## Desk-use tips
