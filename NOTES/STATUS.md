@@ -19,6 +19,8 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 | switching to `gpuswitch 1` while running | system freezes | - |
 | `gpuswitch 1` after restart, no monitor | flickers | - |
 | `gpuswitch 1` + monitor | dark (macOS says online) | works |
+| `gpuswitch 1` + monitor, **lid closed** | - | first a reconfiguration storm (170 WindowServer 0.25 s timeouts), then a **display-sleep loop**: AGDP `PMDisplaySleep` on ports 0 and 1 at about 4.5/s; the pointer updates about once a second; the loop continues after opening the lid (built-in screen shows garbage). Fixed by unplugging and replugging the monitor. Refresh rate resets to 60 Hz and audio moves to the monitor (DP). |
+| unplugging the monitor (after the above) | stays blank, not listed by macOS | - |
 
 ## Findings
 - OCLP patches for MacBookPro14,3 on Sonoma+ (see `opencore_legacy_patcher/sys_patch/patchsets/hardware/graphics/amd_polaris.py`):
@@ -43,6 +45,7 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
    - restart with everything connected
    - unplugging the monitor or dock
    - a full workday without freezes
+   **Result 2026-10-16: lid closed FAILS (display-sleep loop, see the symptoms table).** Lid-open desk use works.
    If these pass, the problem is solved for daily use. The experiment below is then optional.
 3. Time-boxed experiment (one evening) on branch `mbp14-3-display`: give MacBookPro14,3 a complete, matching AMD stack
    instead of only the 13.5.2 framebuffers. First check which AMD binaries PatcherSupportPkg already ships
