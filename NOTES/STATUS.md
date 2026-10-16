@@ -36,7 +36,7 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 - GitHub issues on dortania/OCLP are limited to collaborators. Report through Discord instead: https://discord.gg/rqdPgH8xSN
 
 ## Next steps
-1. [in progress] Recovery USB (64 GB): EFI with OpenCore for 14,3, Sequoia 15.8.1 installer, Ventura 13.7.8 installer, NOTES partition.
+1. [done 2026-10-16, boot test pending] Recovery USB (64 GB): EFI with OpenCore for 14,3 (copy of the internal OCLP 2.5.1 build), Sequoia 15.8.1 + Ventura 13.7.8 installers, NOTES partition (notes, OCLP pkg, logs, git bundle).
 2. Test the **desk setup** on the current Sequoia, keeping `gpuswitch 1`:
    - lid closed (clamshell) with charger, external monitor and keyboard
    - sleep, then wake from the external keyboard
