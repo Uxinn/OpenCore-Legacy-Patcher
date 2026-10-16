@@ -75,6 +75,9 @@ The user has a second, identical MacBook Pro. Run experiments on it, and keep Ma
    First root patch ran **offline** (no Wi-Fi without the patch): OCLP then applies only "Modern Wireless" and skips the
    rest ("Network connection missing ... removing other patches"; no KDK). AMD Polaris and T1 need a second run once online.
 3. Reproduce the symptoms on Mac B first. If they don't reproduce, Mac A may have a hardware fault.
+   **Result 2026-10-16 (Mac B, fully patched, gpuswitch 1, MSI on TB3):** built-in screen normal with no monitor;
+   monitor plugged in = both screens on; **lid closed = no display-sleep loop, no WindowServer timeouts, WindowServer
+   ~0% CPU**. So the symptoms do NOT reproduce on a correctly patched 14,3; Mac A's incomplete patch is the likely cause.
 
 ## Desk-use tips
 - Wake: any key on a USB keyboard (direct or through the dock) wakes it. Bluetooth keyboards normally do too.
