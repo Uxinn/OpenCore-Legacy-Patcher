@@ -1,0 +1,71 @@
+{
+  "AMD Polaris" => {
+    "Overwrite System Volume" => {
+      "/Library/Extensions" => {
+        "AMD9500Controller.kext" => "13.5.2"
+        "AMD10000Controller.kext" => "13.5.2"
+        "AMDFramebuffer.kext" => "13.5.2"
+        "AMDSupport.kext" => "13.5.2"
+      }
+      "/System/Library/Extensions" => {
+      }
+    }
+  }
+  "Commit URL" => "https://github.com/dortania/OpenCore-Legacy-Patcher/releases/tag/2.5.1"
+  "Custom Signature" => 1
+  "Kernel Debug Kit Used" => "Not applicable"
+  "Metal Library Used" => "Not applicable"
+  "Modern Wireless Common" => {
+    "Merge System Volume" => {
+      "/System/Library/PrivateFrameworks" => {
+        "IO80211.framework" => "13.7.2-24"
+        "WiFiPeerToPeer.framework" => "13.7.2-24"
+      }
+    }
+    "Overwrite System Volume" => {
+      "/usr/libexec" => {
+        "wifip2pd" => "13.7.2-24"
+      }
+    }
+  }
+  "OpenCore Legacy Patcher" => "v2.5.1"
+  "OS Version" => "24.6 (24H32)"
+  "PatcherSupportPkg" => "v1.9.7"
+  "T1 Security Chip" => {
+    "Merge System Volume" => {
+      "/System/Library/Frameworks/LocalAuthentication.framework/Support" => {
+        "MechanismPlugins" => "15.0 Beta 4"
+        "ModuleBase.framework" => "15.2"
+        "ModulePlugins" => "15.1"
+        "SharedUtils.framework" => "13.7.1-24"
+      }
+      "/System/Library/PrivateFrameworks" => {
+        "EmbeddedOSInstall.framework" => "13.6"
+        "NearField.framework" => "14.7.2"
+      }
+    }
+    "Overwrite System Volume" => {
+      "/usr/lib" => {
+        "libNFC_Comet.dylib" => "13.6"
+        "libNFC_HAL.dylib" => "13.6"
+        "libnfrestore.dylib" => "13.6"
+        "libnfshared.dylib" => "13.6"
+        "libnfshared.dylibOld.dylib" => "13.6"
+        "libnfstorage.dylib" => "13.6"
+        "libPN548_API.dylib" => "13.6"
+      }
+      "/usr/libexec" => {
+        "biometrickitd" => "13.6"
+        "nfcd" => "13.6"
+        "nfrestore_service" => "13.6"
+      }
+      "/usr/standalone/firmware/nfrestore/firmware/fw" => {
+        "PN549_FW_02_01_5A_rev88207.bin" => "13.6"
+        "SN100V_FW_A3_01_01_81_rev127208.bin" => "13.6"
+        "SN200V_FW_B1_02_01_86_rev127266.bin" => "13.6"
+        "SN300V_FW_B0_02_01_22_rev129172.bin" => "13.6"
+      }
+    }
+  }
+  "Time Patched" => "October 15, 2026 @ 17:03:15"
+}

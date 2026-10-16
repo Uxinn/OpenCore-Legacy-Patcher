@@ -1,0 +1,68 @@
+Graphics/Displays:
+
+    Intel HD Graphics 630:
+
+      Chipset Model: Intel HD Graphics 630
+      Type: GPU
+      Bus: Built-In
+      VRAM (Dynamic, Max): 1536 MB
+      Vendor: Intel
+      Device ID: 0x591b
+      Revision ID: 0x0004
+      Automatic Graphics Switching: Supported
+      gMux Version: 4.0.29 [3.2.8]
+      Metal Support: Metal 3
+
+    AMD Radeon Polaris:
+
+      Chipset Model: AMD Radeon Polaris
+      Type: GPU
+      Bus: PCIe
+      PCIe Lane Width: x8
+      VRAM (Total): 2 GB
+      Vendor: AMD (0x1002)
+      Device ID: 0x67ef
+      Revision ID: 0x00c7
+      ROM Revision: 113-C980AJ-927
+      VBIOS Version: 113-C9801AP-A02
+      EFI Driver Version: 01.A0.927
+      Automatic Graphics Switching: Supported
+      gMux Version: 4.0.29 [3.2.8]
+      Metal Support: Metal 2
+      Displays:
+        Color LCD:
+          Display Type: Built-In Retina LCD
+          Resolution: 2880 x 1800 Retina
+          Framebuffer Depth: 24-Bit Color (ARGB8888)
+          Mirror: Off
+          Online: Yes
+          Automatically Adjust Brightness: No
+          Connection Type: Internal
+        MPG341CX OLED:
+          Resolution: 3440 x 1440 (UWQHD - Ultra-Wide Quad HD)
+          UI Looks like: 3440 x 1440 @ 60.00Hz
+          Framebuffer Depth: 30-Bit Color (ARGB2101010)
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Rotation: Supported
+          Connection Type: Thunderbolt/DisplayPort
+
+Hardware:
+
+    Hardware Overview:
+
+      Model Name: MacBook Pro
+      Model Identifier: MacBookPro14,3
+      Processor Name: Quad-Core Intel Core i7
+      Processor Speed: 2,8 GHz
+      Number of Processors: 1
+      Total Number of Cores: 4
+      L2 Cache (per Core): 256 KB
+      L3 Cache: 6 MB
+      Hyper-Threading Technology: Enabled
+      Memory: 16 GB
+      System Firmware Version: 529.140.2.0.0
+      OS Loader Version: 583~5915
+      SMC Version (system): 2.45f5
+

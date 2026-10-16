@@ -1,0 +1,71 @@
+# Status: MacBookPro14,3 on Sequoia, dual-display problem
+
+Last updated: 2026-10-16
+
+## Goal
+Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBookPro14,3) that is used at a desk with an
+**external monitor and keyboard every day**. The built-in screen and keyboard are rarely used.
+
+## Current state
+- Sequoia 15.8.1 (24H32), OCLP 2.5.1, root patched. Boots through OpenCore on the internal disk (built for MacBookPro14,3).
+- `pmset gpuswitch 1` (AMD only) is set. External monitor (MSI MPG341CX OLED, 3440x1440, TB3/DP) works.
+- Built-in screen: dark while the external monitor is connected, flickers with no monitor connected.
+- MacPorts tools installed. After the OS upgrade, `sudo port migrate` is still TODO.
+
+## Symptoms (details in bug-report.md)
+| Setting | Built-in screen | External monitor |
+|---|---|---|
+| `gpuswitch 2` (auto) | OK | plugging in makes CoreDisplayXPCService crash |
+| switching to `gpuswitch 1` while running | system freezes | - |
+| `gpuswitch 1` after restart, no monitor | flickers | - |
+| `gpuswitch 1` + monitor | dark (macOS says online) | works |
+
+## Findings
+- OCLP patches for MacBookPro14,3 on Sonoma+ (see `opencore_legacy_patcher/sys_patch/patchsets/hardware/graphics/amd_polaris.py`):
+  only AMDFramebuffer, AMD9500Controller, AMD10000Controller and AMDSupport are replaced with **13.5.2** versions.
+  AMDRadeonX4000 and the Metal and other bundles stay Sequoia's own, so the AMD stack is mixed.
+- Intel KBL graphics are not patched (Sequoia still supports them natively).
+- AppleGraphicsControl, Ventura 7.1.18 vs Sequoia 8.1.10 (from the Kernel Debug Kits):
+  - AppleMuxControl and AppleGPUWrangler are effectively unchanged (same functions and strings).
+  - AppleGraphicsDevicePolicy changed its modeset and link validation (DSC override, HDMI link fit, timing assert; old
+    "vendor modeset" warnings removed).
+  - AGDCBacklightControl: the default ApplePanels blob is 2 bytes shorter.
+  - Conclusion: downgrading the mux driver is unlikely to help. The suspect is the mixed AMD stack combined with the newer AGDP.
+- MacRumors: no fix found. The Sequoia thread says T1 MacBook Pros (13,2/13,3/14,2/14,3) have iCloud, FaceTime and AirDrop problems.
+  Others report the internal screen going black with an external display, even on Sonoma.
+- GitHub issues on dortania/OCLP are limited to collaborators. Report through Discord instead: https://discord.gg/rqdPgH8xSN
+
+## Next steps
+1. [in progress] Recovery USB (64 GB): EFI with OpenCore for 14,3, Sequoia 15.8.1 installer, Ventura 13.7.8 installer, NOTES partition.
+2. Test the **desk setup** on the current Sequoia, keeping `gpuswitch 1`:
+   - lid closed (clamshell) with charger, external monitor and keyboard
+   - sleep, then wake from the external keyboard
+   - restart with everything connected
+   - unplugging the monitor or dock
+   - a full workday without freezes
+   If these pass, the problem is solved for daily use. The experiment below is then optional.
+3. Time-boxed experiment (one evening) on branch `mbp14-3-display`: give MacBookPro14,3 a complete, matching AMD stack
+   instead of only the 13.5.2 framebuffers. First check which AMD binaries PatcherSupportPkg already ships
+   (Universal-Binaries.dmg), then change `amd_polaris.py`, run OCLP from source, root patch, and run the tests above.
+4. Fallback: Ventura 13.7.8 from the USB stick (clean install).
+
+## Second Mac for testing (Mac B)
+The user has a second MacBook Pro that may be identical. Run experiments on it, and keep Mac A (the daily machine) stable.
+1. On Mac B, run `bash NOTES/tools/mac-fingerprint.sh > mac-B.txt` and diff it against `NOTES/logs/mac-A-fingerprint.txt`.
+   It must match on model, board-id, CPU, both GPU device and revision IDs, AMD ROM/VBIOS, gMux version, built-in display
+   IDs, Wi-Fi/BT chips, and ideally firmware (System Firmware, SMC, T1). RAM, SSD size and macOS version can differ.
+2. Bring Mac B to the same baseline as Mac A: Sequoia 15.8.1 plus OCLP 2.5.1, with OpenCore built **on Mac B for Mac B**.
+   Never copy an EFI between Macs (see the iMac15,1 leftover incident in RECOVERY.md).
+3. Reproduce the symptoms on Mac B first. If they don't reproduce, Mac A may have a hardware fault.
+
+## Desk-use tips
+- Wake: any key on a USB keyboard (direct or through the dock) wakes it. Bluetooth keyboards normally do too.
+- Lid-closed use needs the charger connected.
+- Power on without opening the lid: prefer sleep over shutdown. 2016+ MBPs also start when the charger is connected.
+  Scheduled start-up: `sudo pmset repeat wakeorpoweron MTWRF 08:00:00`. Cancel with `sudo pmset repeat cancel`.
+- OpenCore and the Apple logo may only show on the built-in screen. Wait about a minute and the external monitor comes on at login.
+
+## Alternatives considered
+- Windows 11 (Boot Camp, unsupported CPU/TPM): AMD only, so external monitors work. Windows 10 is out of support.
+- Linux: AMD and external monitors work. The BCM43602 Wi-Fi is unusable (needs a USB Wi-Fi adapter), audio needs the
+  davidjo/snd_hda_macbookpro driver, and resume only works with the Intel GPU. Not preferred, because the user wants macOS.
