@@ -77,7 +77,9 @@ The user has a second, identical MacBook Pro. Run experiments on it, and keep Ma
 3. Reproduce the symptoms on Mac B first. If they don't reproduce, Mac A may have a hardware fault.
    **Result 2026-10-16 (Mac B, fully patched, gpuswitch 1, MSI on TB3):** built-in screen normal with no monitor;
    monitor plugged in = both screens on; **lid closed = no display-sleep loop, no WindowServer timeouts, WindowServer
-   ~0% CPU**. So the symptoms do NOT reproduce on a correctly patched 14,3; Mac A's incomplete patch is the likely cause.
+   ~0% CPU**; **restart with lid closed + monitor** = MSI shows login screen, no loop; **unplug monitor + open lid** =
+   built-in screen comes back as main display. All tests pass. So the symptoms do NOT reproduce on a correctly patched
+   14,3; Mac A's incomplete patch is the likely cause. Next: re-run the root patch on Mac A **online** (KDK merge).
 
 ## Desk-use tips
 - Wake: any key on a USB keyboard (direct or through the dock) wakes it. Bluetooth keyboards normally do too.
