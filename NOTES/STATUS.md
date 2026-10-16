@@ -62,6 +62,9 @@ The user has a second, identical MacBook Pro. Run experiments on it, and keep Ma
    subsystem IDs. Only OS-dependent lines differ (Mac B on Ventura 13.7.8).
 2. Bring Mac B to the same baseline as Mac A: Sequoia 15.8.1 plus OCLP 2.5.1, with OpenCore built **on Mac B for Mac B**.
    Never copy an EFI between Macs (see the iMac15,1 leftover incident in RECOVERY.md).
+   2026-10-16: OpenCore installed to Mac B's internal disk from Ventura. Running Install macOS Sequoia.app from the stick
+   first said "not compatible" (Ventura had started without OpenCore). Starting via ⌥ → internal EFI Boot → Macintosh HD
+   (so Ventura runs through OpenCore) made the installer accept the Mac. Sequoia install in progress.
 3. Reproduce the symptoms on Mac B first. If they don't reproduce, Mac A may have a hardware fault.
 
 ## Desk-use tips
