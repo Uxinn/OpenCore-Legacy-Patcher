@@ -71,3 +71,13 @@ On 2026-10-15, OCLP showed "Unsupported Configuration Detected: booting OpenCore
 `OCLP-Model=iMac15,1` / `OCLP-Version=2.4.1` from an OpenCore built on another Mac. The fix: reset NVRAM (hold ⌥⌘PR for
 about 20 seconds), then boot through the OpenCore built on this Mac.
 Each Mac needs OpenCore built by OCLP **on that Mac**.
+
+## Rule: macOS updates (2026-10-16)
+- Do **not** upgrade to Tahoe (26.x). OCLP 2.5.1 has no Tahoe support; upstream Tahoe support is still 3.0.0-rc.
+- Turn off automatic install of macOS updates (System Settings → General → Software Update → ⓘ). Any macOS update,
+  even 15.8.x, removes the root patches, and Wi-Fi needs the patch, so OCLP's auto-patch would run **offline** and
+  install only the Wi-Fi patch (the same incomplete state that caused the display bugs).
+- Update by hand with the **USB Ethernet cable** connected, then run
+  `sudo /Applications/OpenCore-Patcher.app/Contents/MacOS/OpenCore-Patcher --patch_sys_vol` and check the log for
+  "Merging KDK with Root Volume" and "Rebuilding Boot and System Kernel Collections" before restarting.
+- Verify after restart: `kextstat | grep AMDFramebuffer` must show 4.1.4 (7.0.0 = AMD patch not active).
