@@ -53,10 +53,13 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 4. Fallback: Ventura 13.7.8 from the USB stick (clean install).
 
 ## Second Mac for testing (Mac B)
-The user has a second MacBook Pro that may be identical. Run experiments on it, and keep Mac A (the daily machine) stable.
+The user has a second, identical MacBook Pro. Run experiments on it, and keep Mac A (the daily machine) stable.
 1. On Mac B, run `bash NOTES/tools/mac-fingerprint.sh > mac-B.txt` and diff it against `NOTES/logs/mac-A-fingerprint.txt`.
    It must match on model, board-id, CPU, both GPU device and revision IDs, AMD ROM/VBIOS, gMux version, built-in display
    IDs, Wi-Fi/BT chips, and ideally firmware (System Firmware, SMC, T1). RAM, SSD size and macOS version can differ.
+   **Result 2026-10-16: identical hardware**: same model, board-id, CPU, 16 GB, System Firmware 529.140.2.0.0,
+   SMC 2.45f5, T1 14Y910, both GPU device/revision IDs, AMD ROM/VBIOS, gMux 4.0.29, built-in display IDs and PCI
+   subsystem IDs. Only OS-dependent lines differ (Mac B on Ventura 13.7.8).
 2. Bring Mac B to the same baseline as Mac A: Sequoia 15.8.1 plus OCLP 2.5.1, with OpenCore built **on Mac B for Mac B**.
    Never copy an EFI between Macs (see the iMac15,1 leftover incident in RECOVERY.md).
 3. Reproduce the symptoms on Mac B first. If they don't reproduce, Mac A may have a hardware fault.
