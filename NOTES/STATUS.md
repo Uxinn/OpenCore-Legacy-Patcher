@@ -20,7 +20,7 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 | `gpuswitch 1` after restart, no monitor | flickers | - |
 | `gpuswitch 1` + monitor | dark (macOS says online) | works |
 | `gpuswitch 1` + monitor, **lid closed** | - | first a reconfiguration storm (170 WindowServer 0.25 s timeouts), then a **display-sleep loop**: AGDP `PMDisplaySleep` on ports 0 and 1 at about 4.5/s; the pointer updates about once a second; the loop continues after opening the lid (built-in screen shows garbage). Fixed by unplugging and replugging the monitor. Refresh rate resets to 60 Hz and audio moves to the monitor (DP). |
-| `gpuswitch 1` + monitor, **lid open, after a restart** (2026-10-16) | - | external monitor flashes: same AGDP `PMDisplaySleep` loop on port 1 plus a ValidateModeTiming storm (3440x1440 at 320/583/659 MHz pixel clocks, i.e. 60/100/120 Hz), so it is **not only a lid-closed problem**. |
+| `gpuswitch 1` + monitor, **after a restart, lid closed** (2026-10-16; lid state checked afterwards) | - | external monitor flashes: same AGDP `PMDisplaySleep` loop on port 1 plus a ValidateModeTiming storm (3440x1440 at 320/583/659 MHz pixel clocks, i.e. 60/100/120 Hz). Same lid-closed trigger as above. |
 | unplugging the monitor (after the above) | stays blank, not listed by macOS | - |
 
 ## Findings
