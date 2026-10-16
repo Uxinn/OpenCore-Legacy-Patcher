@@ -24,6 +24,12 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 | unplugging the monitor (after the above) | stays blank, not listed by macOS | - |
 
 ## Findings
+- **2026-10-16, key finding: Mac A's AMD Polaris patch never took effect.** Its patch run (2026-10-15 17:03) started
+  offline, never downloaded or merged the Kernel Debug Kit, and only rebuilt the Auxiliary Kernel Collection. Mac A runs
+  Sequoia's own AMD kexts 7.0.0 (generic `ATY,AMD,RadeonFramebuffer`, "AMD Radeon Polaris", Metal 2), even though
+  `OpenCore-Legacy-Patcher.plist` lists "AMD Polaris". Mac B, patched online (KDK 24H32 merged, Boot/System KC rebuilt),
+  runs the 13.5.2 kexts 4.1.4 (`ATY,Longavi`, "Radeon Pro 555", Metal 3). Check with
+  `kextstat | grep AMDFramebuffer` (4.1.4 = patched, 7.0.0 = not). The display bugs may come from this broken patch.
 - OCLP patches for MacBookPro14,3 on Sonoma+ (see `opencore_legacy_patcher/sys_patch/patchsets/hardware/graphics/amd_polaris.py`):
   only AMDFramebuffer, AMD9500Controller, AMD10000Controller and AMDSupport are replaced with **13.5.2** versions.
   AMDRadeonX4000 and the Metal and other bundles stay Sequoia's own, so the AMD stack is mixed.
