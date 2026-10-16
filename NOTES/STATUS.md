@@ -24,6 +24,10 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 | unplugging the monitor (after the above) | stays blank, not listed by macOS | - |
 
 ## Findings
+- **2026-10-16 fix applied to Mac A:** `--unpatch_sys_vol` → restart (sealed Apple snapshot) → `--patch_sys_vol` online
+  (USB Ethernet): KDK 24H32 downloaded and merged, AMD Polaris + Modern Wireless + T1 installed, Boot/System KC rebuilt.
+  After restart: AMD kexts 4.1.4, "Radeon Pro 555" Metal 3, built-in + MSI both online, no display-sleep loop.
+  Desk tests on Mac A (lid closed, restart lid closed, unplug) still to run.
 - **2026-10-16, key finding: Mac A's AMD Polaris patch never took effect.** Its patch run (2026-10-15 17:03) started
   offline, never downloaded or merged the Kernel Debug Kit, and only rebuilt the Auxiliary Kernel Collection. Mac A runs
   Sequoia's own AMD kexts 7.0.0 (generic `ATY,AMD,RadeonFramebuffer`, "AMD Radeon Polaris", Metal 2), even though
