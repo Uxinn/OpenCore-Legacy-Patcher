@@ -7,6 +7,10 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 **external monitor and keyboard every day**. The built-in screen and keyboard are rarely used.
 
 ## Current state
+**SOLVED 2026-10-16.** Cause: Mac A's first root patch ran without internet, so the KDK was never merged and the AMD
+13.5.2 kexts never loaded (Sequoia's own 7.0.0 AMD kexts ran instead). Fix: revert root patches, restart, re-patch
+**online**. All desk tests pass on Mac A and Mac B. No fork code changes needed. See RECOVERY.md for update rules.
+
 - Sequoia 15.8.1 (24H32), OCLP 2.5.1, root patched. Boots through OpenCore on the internal disk (built for MacBookPro14,3).
 - `pmset gpuswitch 1` (AMD only) is set. External monitor (MSI MPG341CX OLED, 3440x1440, TB3/DP) works.
 - Built-in screen: dark while the external monitor is connected, flickers with no monitor connected.
@@ -27,7 +31,7 @@ Run current macOS (Sequoia 15.8.1 through OCLP) on a 2017 15" MacBook Pro (MacBo
 - **2026-10-16 fix applied to Mac A:** `--unpatch_sys_vol` → restart (sealed Apple snapshot) → `--patch_sys_vol` online
   (USB Ethernet): KDK 24H32 downloaded and merged, AMD Polaris + Modern Wireless + T1 installed, Boot/System KC rebuilt.
   After restart: AMD kexts 4.1.4, "Radeon Pro 555" Metal 3, built-in + MSI both online, no display-sleep loop.
-  Desk tests on Mac A: **lid closed at 120 Hz PASS**; **restart with lid closed PASS** (AGDP events only in the first 12 s of boot, then none; MSI at 120 Hz). Unplug + open lid: todo.
+  Desk tests on Mac A: **lid closed at 120 Hz PASS**; **restart with lid closed PASS** (AGDP events only in the first 12 s of boot, then none; MSI at 120 Hz). **unplug + open lid PASS** (built-in screen back as main display). **All desk tests pass: problem solved.**
 - **2026-10-16, key finding: Mac A's AMD Polaris patch never took effect.** Its patch run (2026-10-15 17:03) started
   offline, never downloaded or merged the Kernel Debug Kit, and only rebuilt the Auxiliary Kernel Collection. Mac A runs
   Sequoia's own AMD kexts 7.0.0 (generic `ATY,AMD,RadeonFramebuffer`, "AMD Radeon Polaris", Metal 2), even though
